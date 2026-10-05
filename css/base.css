@@ -1,0 +1,193 @@
+/* ==========================================================
+   base.css - NỀN TẢNG CHUNG CHO CẢ NHÓM (Tông xanh lá + trắng)
+   Quy tắc: KHÔNG sửa file này riêng lẻ. Cần đổi thì báo đội trưởng.
+   Mỗi module viết CSS riêng trong file khác (vd: css/cart.css)
+   và đặt tên class có tiền tố module: acc-, prod-, cart-, ord-
+   ========================================================== */
+
+/* 1. BIẾN MÀU, FONT, KÍCH THƯỚC - đổi 1 chỗ, cả web đổi theo */
+:root {
+  --green-900: #0A4F33;   /* chữ tiêu đề đậm, footer */
+  --green-700: #0F7B4F;   /* MÀU CHÍNH: nút, link, header */
+  --green-500: #22A06B;   /* hover, điểm nhấn */
+  --green-100: #E6F4EC;   /* nền nhạt, badge, hover dòng */
+  --white: #FFFFFF;
+  --bg: #F7FAF8;          /* nền trang */
+  --ink: #17251E;         /* chữ chính */
+  --ink-soft: #5B6B63;    /* chữ phụ */
+  --line: #DCE6E0;        /* viền */
+  --danger: #D64545;      /* lỗi, xóa */
+  --warning: #E8A317;
+
+  --font: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 2px 10px rgba(10, 79, 51, .08);
+  --container: 1200px;
+}
+
+/* 2. RESET */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; font-family: var(--font); font-size: 15px; line-height: 1.6;
+  color: var(--ink); background: var(--bg);
+}
+img { max-width: 100%; display: block; }
+a { color: var(--green-700); text-decoration: none; }
+a:hover { color: var(--green-500); }
+h1, h2, h3 { color: var(--green-900); line-height: 1.3; margin: 0 0 .5em; }
+h1 { font-size: 28px; } h2 { font-size: 22px; } h3 { font-size: 17px; }
+ul { list-style: none; margin: 0; padding: 0; }
+:focus-visible { outline: 3px solid var(--green-500); outline-offset: 2px; }
+
+/* 3. BỐ CỤC CHUNG */
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 16px; }
+.main { min-height: 60vh; padding: 24px 0 48px; }
+.grid { display: grid; gap: 16px; }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.flex { display: flex; gap: 12px; align-items: center; }
+.between { justify-content: space-between; }
+.text-soft { color: var(--ink-soft); }
+.price { color: var(--danger); font-weight: 700; }
+
+/* 4. NÚT BẤM: <button class="btn btn-primary"> */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 18px; border: 1.5px solid transparent; border-radius: var(--radius-sm);
+  font: inherit; font-weight: 600; cursor: pointer; transition: background .15s, color .15s;
+}
+.btn-primary { background: var(--green-700); color: var(--white); }
+.btn-primary:hover { background: var(--green-500); color: var(--white); }
+.btn-outline { background: var(--white); color: var(--green-700); border-color: var(--green-700); }
+.btn-outline:hover { background: var(--green-100); }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-block { width: 100%; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* 5. FORM: <div class="form-group"><label>..</label><input class="input"></div> */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 6px; }
+.input, select.input, textarea.input {
+  width: 100%; padding: 10px 12px; font: inherit; color: var(--ink);
+  background: var(--white); border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+}
+.input:focus { border-color: var(--green-700); outline: none; box-shadow: 0 0 0 3px var(--green-100); }
+.input.is-error { border-color: var(--danger); }
+.error-text { color: var(--danger); font-size: 13px; margin-top: 4px; min-height: 1em; }
+
+/* 6. THẺ & BADGE */
+.card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+.badge { display: inline-block; padding: 2px 10px; font-size: 12px; font-weight: 600; border-radius: 99px; background: var(--green-100); color: var(--green-900); }
+.badge-danger { background: #FBE5E5; color: var(--danger); }
+
+/* 7. THÔNG BÁO NỔI (toast) - gọi showToast("...") trong common.js */
+.toast {
+  position: fixed; right: 20px; bottom: 84px; z-index: 999; padding: 12px 18px;
+  background: var(--green-900); color: var(--white); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: .25s; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: none; }
+.toast.error { background: var(--danger); }
+
+/* ==========================================================
+   HEADER (dùng chung - do js/common.js chèn vào #site-header)
+   Kiểu CellphoneS: dải mỏng trên cùng + thanh chính
+   ========================================================== */
+.site-header { background: var(--green-700); position: sticky; top: 0; z-index: 100; }
+.site-header svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* Dải mỏng trên cùng */
+.header-strip { background: var(--green-900); font-size: 13px; }
+.header-strip .container { display: flex; justify-content: flex-end; }
+.header-strip a + a { margin-left: 14px; padding-left: 14px; border-left: 1px solid rgba(255,255,255,.35); }
+.header-strip a { display: flex; align-items: center; gap: 6px; padding: 7px 0; color: var(--white); }
+.header-strip a:hover { color: #B8F0D2; }
+.header-strip svg { width: 16px; height: 16px; }
+
+/* Thanh chính */
+.header-main { display: flex; align-items: center; gap: 14px; padding: 12px 16px; }
+.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-size: 21px; font-weight: 800; white-space: nowrap; }
+.logo:hover { color: var(--white); }
+.logo-mark { width: 36px; height: 36px; border-radius: 10px; background: var(--white); color: var(--green-700); display: flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 22px; height: 22px; }
+
+/* Nút kiểu "pill" dùng cho Danh mục, Đăng nhập, Giỏ hàng */
+.hbtn {
+  display: flex; align-items: center; gap: 8px; padding: 9px 14px; border: 0; border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.15); color: var(--white); font: inherit; font-weight: 600; cursor: pointer; white-space: nowrap; position: relative;
+}
+.hbtn:hover { background: rgba(255,255,255,.25); color: var(--white); }
+
+/* Danh mục (dropdown) */
+.cat-wrap { position: relative; }
+.cat-menu {
+  display: none; position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px; padding: 6px;
+  background: var(--white); border-radius: var(--radius); box-shadow: 0 8px 24px rgba(10,79,51,.2);
+}
+.cat-menu.open { display: block; }
+.cat-menu a { display: block; padding: 9px 12px; border-radius: var(--radius-sm); color: var(--ink); font-weight: 500; }
+.cat-menu a:hover { background: var(--green-100); color: var(--green-900); }
+.cat-menu hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+
+/* Tìm kiếm */
+.search-box { flex: 1; display: flex; align-items: center; min-width: 0; background: var(--white); border-radius: var(--radius-sm); overflow: hidden; }
+.search-box svg { margin-left: 12px; color: var(--ink-soft); }
+.search-box input { flex: 1; min-width: 0; padding: 11px 10px; border: 0; font: inherit; color: var(--ink); background: transparent; }
+.search-box input:focus { outline: none; }
+.search-box button { align-self: stretch; padding: 0 20px; border: 0; background: var(--green-900); color: var(--white); font: inherit; font-weight: 600; cursor: pointer; }
+.search-box button:hover { background: #07402a; }
+
+/* Tài khoản và giỏ hàng */
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.cart-badge {
+  position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; padding: 0 5px;
+  background: var(--white); color: var(--green-900); border-radius: 99px; font-size: 12px; font-weight: 700; line-height: 20px; text-align: center;
+}
+.logout-link { color: var(--white); font-size: 13px; padding: 0 4px; white-space: nowrap; }
+.logout-link:hover { color: #B8F0D2; }
+
+/* Nút hotline ghim góc phải dưới */
+.float-contact {
+  position: fixed; right: 16px; bottom: 16px; z-index: 120; display: flex; align-items: center; gap: 8px;
+  padding: 12px 18px; background: var(--green-700); color: var(--white); border-radius: 99px;
+  font-weight: 700; box-shadow: 0 4px 14px rgba(10,79,51,.35);
+}
+.float-contact:hover { background: var(--green-500); color: var(--white); }
+.float-contact svg { width: 22px; height: 22px; }
+
+/* ==========================================================
+   FOOTER (dùng chung - chèn vào #site-footer)
+   ========================================================== */
+.site-footer { background: var(--green-900); color: #CFE6D9; padding: 40px 0 0; margin-top: 40px; }
+.footer-cols { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 28px; }
+.site-footer h4 { color: var(--white); margin: 0 0 12px; font-size: 16px; }
+.site-footer li { margin-bottom: 8px; }
+.site-footer a { color: #CFE6D9; }
+.site-footer a:hover { color: var(--white); }
+.footer-bottom { margin-top: 28px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.15); font-size: 13px; text-align: center; }
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 900px) {
+  .header-main { flex-wrap: wrap; row-gap: 10px; }
+  .search-box { order: 3; flex-basis: 100%; }
+  .header-actions { margin-left: auto; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .footer-cols { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .logo { font-size: 18px; }
+  .hbtn { padding: 9px 10px; }
+  .hbtn .hbtn-text { display: none; }              /* mobile: chỉ giữ icon cho Danh mục, Đăng nhập, Giỏ hàng */
+  .header-main { gap: 8px; }
+  .cat-menu { min-width: 200px; }
+  .float-contact { padding: 13px; }
+  .float-contact span { display: none; }
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .footer-cols { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
